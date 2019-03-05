@@ -14,11 +14,9 @@ button.addEventListener('click', function(event){
     } else {
         unlikePost();
     }
-})
+});
 
 function likePost(){
-    // const url = document.getElementById('currentid').getAttribute('href');
-    // const userid = url.substring(url.lastIndexOf('/') + 1);
     const postid = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
     fetch(URL, {
         method: 'POST',
@@ -32,8 +30,6 @@ function likePost(){
 }
 
 function unlikePost(){
-    // const url = document.getElementById('currentid').getAttribute('href');
-    // const userid = url.substring(url.lastIndexOf('/') + 1);
     const postid = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
     fetch(URL, {
         method: 'DELETE',

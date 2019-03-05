@@ -34,7 +34,7 @@
     font-size: 0.9rem;
     letter-spacing: 0.05rem;
     padding: 0.75rem 1rem;
-    border-radius: 2rem;
+    /*border-radius: 2rem;*/
 }
 
 .form-label-group {
@@ -46,7 +46,7 @@
 .form-label-group>label {
     padding: var(--input-padding-y) var(--input-padding-x);
     height: auto;
-    border-radius: 2rem;
+    /*border-radius: 2rem;*/
 }
 
 .form-label-group>label {
@@ -100,7 +100,7 @@
 
 .success-alert {
     position: fixed;
-    top: 70px;
+    top: 90px;
     right: 15px;
     font-size: 16px;
     z-index: 10;
@@ -143,6 +143,10 @@
     margin-right: 15px;
 }
 
+.mb-5 {
+    margin-bottom: 5px!important;
+}
+
 .width-60 {
     width: 60px;
 }
@@ -171,6 +175,18 @@
     color: white;
 }
 
+.cr-161616 {
+    color: #161616!important;
+}
+
+.black-half {
+    color: rgba(0,0,0,.5)!important;
+}
+
+.black-half:hover {
+    color: rgba(0,0,0,.7)!important;
+}
+
 .fs-16 {
     font-size: 16px!important;
 }
@@ -187,6 +203,10 @@
     padding-top: 100px!important;
 }
 
+.pb-100 {
+    padding-bottom: 100px!important;
+}
+
 .pb-150 {
     padding-bottom: 150px!important;
 }
@@ -197,6 +217,11 @@
 
 .plr-15p {
     padding: 0 15%;
+}
+
+.ptb-125 {
+    padding-top: 125px!important;
+    padding-bottom: 125px!important;
 }
 
 .text-center {
@@ -239,6 +264,18 @@
     border: 0!important;
 }
 
+textarea {
+    padding: 20px 24px 4px 24px!important;
+}
+
+select {
+    text-indent: 20px;
+}
+
+.btn {
+    padding: 15px 30px!important;
+}
+
 @media (min-width: 981px) {
     .vert {
         display: flex;
@@ -250,7 +287,7 @@
         margin-right: 15px;
     }
 
-    .item {
+    .item, #commentTitle {
         margin-left: 15%!important;
         margin-right: 15%!important;
     }

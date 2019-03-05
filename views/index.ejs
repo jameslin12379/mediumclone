@@ -1,5 +1,14 @@
 <% include ./partials/header %>
 
+<% if (alert.length > 0) { %>
+<div class="alert alert-success success-alert " role="alert">
+  <span class="mr-15"><%= alert %></span>
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<% } %>
+
 <!-- Header -->
 <header class="masthead">
   <div class="container d-flex h-100 align-items-center">

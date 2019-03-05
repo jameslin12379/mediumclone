@@ -4,8 +4,7 @@
 //// if value of button is unfollow, when clicked an ajax DELETE request will be sent
 // to remove a row with current user and topic and if successful a response
 // will be sent back and text of button should be changed to follow
-
-const URL = window.location.origin + '/topicfollowings';
+const URL = '/topicfollowings';
 const followerscount = document.getElementById('followerscount');
 const button = document.getElementById('followunfollow');
 button.addEventListener('click', function(event){
@@ -14,10 +13,10 @@ button.addEventListener('click', function(event){
     } else {
         unfollowTopic();
     }
-})
+});
 
 function followTopic(){
-    const topicid = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+    const topicid = window.location.pathname.substring(window.location.pathname.lastIndexOf("/")+1);
     fetch(URL, {
         method: 'POST',
         headers: {"Content-Type": "application/json"},
@@ -30,7 +29,7 @@ function followTopic(){
 }
 
 function unfollowTopic(){
-    const topicid = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+    const topicid = window.location.pathname.substring(window.location.pathname.lastIndexOf("/")+1);
     fetch(URL, {
         method: 'DELETE',
         headers: {"Content-Type": "application/json"},
@@ -39,7 +38,6 @@ function unfollowTopic(){
         .then(result => {
             button.innerText = 'FOLLOW';
             followerscount.innerText = (Number(followerscount.innerText) - 1) + '';
-
         });
 }
 

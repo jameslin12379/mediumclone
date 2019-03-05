@@ -13,7 +13,7 @@ button.addEventListener('click', function(event){
     } else {
         unfollowUser();
     }
-})
+});
 
 function followUser(){
     const userid = window.location.pathname.substring(window.location.pathname.lastIndexOf("/")+1);

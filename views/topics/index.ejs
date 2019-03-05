@@ -1,0 +1,19 @@
+<% include ../partials/header %>
+
+<div class="container ptb-125">
+    <div id="container">
+        <% for(var i=0; i < results.length; i++) { %>
+        <div class="card item mb-30">
+            <div class="card-body">
+                <a href="/topics/<%= results[i].id %>" class="mr-15"><img src="<%= results[i].imageurl %>" alt="" class="width-60 height-60 border-radius" /></a>
+                <a href="/topics/<%= results[i].id %>" class="bold fs-16"><%= results[i].name %></a>
+            </div>
+        </div>
+        <% } %>
+    </div>
+    <div id="loadMore">
+    </div>
+</div>
+
+<script src="/javascripts/loadmoretopics.js"></script>
+<% include ../partials/footer %>

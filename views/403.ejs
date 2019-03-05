@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title><%= title %></title>
+    <title>403</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/startbootstrap-grayscale-gh-pages/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -39,28 +39,19 @@
                 <li class="nav-item">
                     <a class="nav-link js-scroll-trigger black-half" href="/topics">Explore</a>
                 </li>
-                <% if (req.isAuthenticated()) { %>
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger black-half" href="/posts/new">Create</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger black-half" href="/users/<%= req.user.id %>"><%= req.user.username %></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger black-half" href="/settings">Settings</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger black-half" href="/logout">Log out</a>
-                </li>
-                <% } else { %>
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger black-half" href="/users/new">Sign up</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link js-scroll-trigger black-half" href="/login">Log in</a>
-                </li>
-                <% } %>
             </ul>
         </div>
     </div>
 </nav>
+
+<!-- Header -->
+<header class="masthead">
+    <div class="container d-flex h-100 align-items-center">
+        <div class="mx-auto text-center">
+            <h1 class="mx-auto my-0 text-uppercase mb-30">403</h1>
+        </div>
+    </div>
+</header>
+
+
+<% include ./partials/footer %>

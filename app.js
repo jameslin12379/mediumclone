@@ -8,7 +8,7 @@ var session = require("express-session");
 var RedisStore = require('connect-redis')(session);
 var redis = require("redis").createClient();
 var bodyParser = require("body-parser");
-var passport = require('passport')
+var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mysql = require('mysql');
 var flash = require('connect-flash');
@@ -53,6 +53,7 @@ app.use(session({
 }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(methodOverride('_method'));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -92,7 +93,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-    connection.query("SELECT id, email, username FROM user WHERE id = ?", [id], function(err,rows){
+    connection.query("SELECT id, email, username, imageurl FROM user WHERE id = ?", [id], function(err,rows){
         done(err, rows[0]);
     });
 });

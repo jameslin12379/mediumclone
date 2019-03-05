@@ -2,11 +2,11 @@
 const loadMore = document.querySelector('#loadMore');
 const container = document.querySelector('#container');
 let url = window.location.pathname;
-let count = document.getElementsByClassName('list-item').length;
+let count = document.getElementsByClassName('item').length;
 let total = 70;
 let skip = count;
 let loading = false;
-const API_URL = window.location.hostname.includes("dev") ? `https://www.vie67.com.dev/api/topics` : `https://www.vie67.com/api/topics`;
+const API_URL = window.location.hostname.includes("dev") ? `https://www.mediumclone.com.dev/api/topics` : `https://www.mediumclone.com/api/topics`;
 
 document.addEventListener('scroll', () => {
     const rect = loadMore.getBoundingClientRect();
@@ -14,30 +14,32 @@ document.addEventListener('scroll', () => {
         loading = true;
         if (count < total) {
             fetch(API_URL + `?skip=${skip}`).then(response => response.json()).then(result => {
-                result = result.results;
-                result.forEach(topic => {
-                    const div = document.createElement('div');
-                    div.classList.add("mb-50");
-                    div.classList.add("list-item");
-                    const link = document.createElement('a');
-                    link.setAttribute("href", `/topics/${topic.id}`);
-                    link.classList.add("mr-15");
-                    const img = document.createElement('img');
-                    img.setAttribute("src", topic.imageurl);
-                    img.classList.add("width-60");
-                    img.classList.add("height-60");
-                    img.classList.add("border-radius");
-                    const link2 = document.createElement('a');
+                result.results.forEach(topic => {
+                    const card = document.createElement("div");
+                    card.classList.add("card");
+                    card.classList.add("item");
+                    card.classList.add("mb-30");
+                    const cardBody = document.createElement("div");
+                    cardBody.classList.add("card-body");
+                    card.appendChild(cardBody);
+                    const link1 = document.createElement("a");
+                    link1.setAttribute("href", `/topics/${topic.id}`);
+                    link1.classList.add("mr-15");
+                    const avatar = document.createElement("img");
+                    avatar.setAttribute("src", topic.imageurl);
+                    avatar.classList.add("width-60");
+                    avatar.classList.add("height-60");
+                    avatar.classList.add("border-radius");
+                    link1.appendChild(avatar);
+                    cardBody.appendChild(link1);
+                    const link2 = document.createElement("a");
                     link2.setAttribute("href", `/topics/${topic.id}`);
-                    link2.innerText = topic.name;
                     link2.classList.add("bold");
-                    link2.classList.add("fs-16");
-                    div.appendChild(link);
-                    link.appendChild(img);
-                    div.appendChild(link2);
-                    container.appendChild(div);
+                    link2.innerText = topic.name;
+                    cardBody.appendChild(link2);
+                    container.appendChild(card);
                 });
-                count = document.getElementsByClassName('list-item').length;
+                count = document.getElementsByClassName('item').length;
                 skip = count;
                 loading = false;
             });

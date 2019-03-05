@@ -1,0 +1,115 @@
+<% include ../partials/header %>
+
+<% if (alert.length > 0) { %>
+<div class="alert alert-success success-alert" role="alert">
+    <span class="mr-15"><%= alert %></span>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<% } %>
+
+<div class="container ptb-125">
+    <div class="card item bd-none mb-30">
+        <div class="card-body">
+            <h3 class="card-title mb-15"><%= results[0][0].name %></h3>
+            <div class="flex mb-15">
+                <div class="mr-15">
+                    <a href="/users/<%= results[0][0].userid %>"><img src="<%= results[0][0].userimageurl %>" alt="" class="width-60 height-60 border-radius" /></a>
+                </div>
+                <div class="text-left">
+                    <div>
+                        <a href="/users/<%= results[0][0].userid %>" class="bold fs-16 marginr-5 "><%= results[0][0].username %></a>
+                        <a href="/topics/<%= results[0][0].topicid %>" class="bold fs-16 "><%= results[0][0].topicname %></a>
+                    </div>
+                    <div class="fs-16"><%= moment(results[0][0].datecreated).format('LLL') %></div>
+                </div>
+            </div>
+            <div class="flex ai-c mb-15">
+                <div class="mr-15">
+                    <span class="fs-16"><span id="commentscount" class="commentscount"><%= results[2][0].commentscount %></span> Comments</span>
+                </div>
+                <div class="mr-15">
+                    <span class="fs-16"><%= results[0][0].views %> Views</span>
+                </div>
+                <div class="mr-15">
+                    <span class="fs-16"><span id="likescount"><%= results[3][0].likescount %></span> Likes</span>
+                </div>
+                <% if (req.isAuthenticated()) { %>
+                <div class="mr-15">
+                    <i id="likeunlike" class="far fa-thumbs-up <% if (result[0].status === 0) { %>op-05<% } %>"></i></button>
+                </div>
+                <% } %>
+            </div>
+            <p class="card-text"><%= results[0][0].description %></p>
+            <!--<span class="subheading mb-15 fs-18 text-left lh-2"><%= results[0][0].description %></span>-->
+            <% if (req.user === undefined) { %>
+            <% } else if (req.user.id !== results[0][0].userid) { %>
+            <% } else { %>
+            <div class="flex">
+                <div class="mr-15">
+                    <a class="btn btn-primary" href="/posts/<%= results[0][0].id %>/edit">Edit</a>
+                </div>
+                <div>
+                    <form action="/posts/<%= results[0][0].id %>?_method=DELETE" method="post">
+                        <button type="submit" class="btn btn-primary">Delete</button>
+                    </form>
+                </div>
+            </div>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="card item bd-none mb-30">
+        <div class="card-body">
+            <h5 class="card-title"><span class="commentscount"><%= results[2][0].commentscount %></span> Comments</h5>
+            <% if (req.isAuthenticated()) { %>
+            <form name="sentMessage" action="/comments" method="post" id="commentform">
+                <div id="emptyerror" class="alert alert-danger mb-15 hidden commentformerrors" role="alert">
+                    Empty description.
+                </div>
+                <div id="lengtherror" class="alert alert-danger mb-15 hidden commentformerrors" role="alert">
+                    Description must be between 5-300 characters.
+                </div>
+                <div class="control-group mb-15">
+                    <div class="form-group floating-label-form-group controls">
+                        <textarea class="form-control" id="commentformtextarea" placeholder="Leave a comment" name="description" rows="3" required></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary pd-6-12" id="sendMessageButton">Submit</button>
+                </div>
+            </form>
+
+            <% } %>
+        </div>
+    </div>
+
+    <div id="container">
+        <% for(var i=0; i < results[1].length; i++) { %>
+        <div class="card item mb-30">
+            <div class="card-body">
+                <div class="flex">
+                    <div class="mr-15">
+                        <a href="/users/<%= results[1][i].userid %>"><img src="<%= results[1][i].imageurl %>" alt="" class="width-60 height-60 border-radius" /></a>
+                    </div>
+                    <div>
+                        <div><a href="/users/<%= results[1][i].userid %>" class="bold fs-16"><%= results[1][i].username %></a></div>
+                        <div><a href="/comments/<%= results[1][i].id %>" class="fs-16"><%= results[1][i].description %></a></div>
+                        <div class="fs-16"><%= moment(results[1][i].datecreated).format('LLL') %></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </div>
+    <div id="loadMore">
+    </div>
+</div>
+
+<script src="/javascripts/postloadmorecomments.js"></script>
+<% if (req.isAuthenticated()) { %>
+<script src="/javascripts/postlikeunlike.js"></script>
+<script src="/javascripts/postcreatecomment.js"></script>
+<% } %>
+<% include ../partials/footer %>

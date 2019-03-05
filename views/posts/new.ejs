@@ -1,0 +1,104 @@
+<% include ../partials/header %>
+
+<div class="container ptb-125">
+    <div class="row">
+        <div class="col-lg-6 offset-lg-3">
+            <h3 class="login-heading mb-4 text-center">Create post</h3>
+            <form action="/posts" method="post">
+                <% if (errors.length > 0) { %>
+                <% for(var i = 0; i < errors.length; i++) { %>
+                <div class="alert alert-danger mb-15" role="alert">
+                    <%= errors[i].msg %>
+                </div>
+                <% } %>
+                <% } %>
+                <div class="form-label-group">
+                    <input type="text" id="inputUsername" class="form-control" placeholder="Title" name="name" <% if (inputs.length > 0) { %>value="<%=inputs[0].name%>"<% } %>required autofocus>
+                    <label for="inputUsername">Title</label>
+                </div>
+
+                <div class="form-label-group">
+                    <textarea id="inputDescription" class="form-control" placeholder="Description" name="description" rows="5" required><% if (inputs.length > 0) { %><%=inputs[0].description%><% } %></textarea>
+                </div>
+
+                <div class="form-label-group">
+                    <select class="form-control" name="topic" required>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "1"){%>selected<% } %><% } %> value="1">Art</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "2"){%>selected<% } %><% } %> value="2">Books</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "3"){%>selected<% } %><% } %> value="3">Comics</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "4"){%>selected<% } %><% } %> value="4">Culture</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "5"){%>selected<% } %><% } %> value="5">Film</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "6"){%>selected<% } %><% } %> value="6">Food</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "7"){%>selected<% } %><% } %> value="7">Gaming</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "8"){%>selected<% } %><% } %> value="8">Humor</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "9"){%>selected<% } %><% } %> value="9">Internet Culture</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "10"){%>selected<% } %><% } %> value="10">Music</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "11"){%>selected<% } %><% } %> value="11">Photography</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "12"){%>selected<% } %><% } %> value="12">Poetry</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "13"){%>selected<% } %><% } %> value="13">Social Media</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "14"){%>selected<% } %><% } %> value="14">Sports</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "15"){%>selected<% } %><% } %> value="15">TV</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "16"){%>selected<% } %><% } %> value="16">Writing</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "17"){%>selected<% } %><% } %> value="17">Business</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "18"){%>selected<% } %><% } %> value="18">Design</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "19"){%>selected<% } %><% } %> value="19">Economy</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "20"){%>selected<% } %><% } %> value="20">Startups</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "21"){%>selected<% } %><% } %> value="21">Freelancing</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "22"){%>selected<% } %><% } %> value="22">Marketing</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "23"){%>selected<% } %><% } %> value="23">Productivity</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "24"){%>selected<% } %><% } %> value="24">Work</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "25"){%>selected<% } %><% } %> value="25">Android</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "26"){%>selected<% } %><% } %> value="26">AI</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "27"){%>selected<% } %><% } %> value="27">Blockchain</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "28"){%>selected<% } %><% } %> value="28">Cryptocurrency</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "29"){%>selected<% } %><% } %> value="29">Cyber Security</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "30"){%>selected<% } %><% } %> value="30">Date Science</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "31"){%>selected<% } %><% } %> value="31">Gadgets</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "32"){%>selected<% } %><% } %> value="32">iOS</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "33"){%>selected<% } %><% } %> value="33">Javascript</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "34"){%>selected<% } %><% } %> value="34">Machine Learning</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "35"){%>selected<% } %><% } %> value="35">Math</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "36"){%>selected<% } %><% } %> value="36">Neuroscience</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "37"){%>selected<% } %><% } %> value="37">Programming</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "38"){%>selected<% } %><% } %> value="38">Science</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "39"){%>selected<% } %><% } %> value="39">Self Driving Cars</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "40"){%>selected<% } %><% } %> value="40">Software</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "41"){%>selected<% } %><% } %> value="41">Space</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "42"){%>selected<% } %><% } %> value="42">UX</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "43"){%>selected<% } %><% } %> value="43">Visual Design</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "44"){%>selected<% } %><% } %> value="44">Creativity</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "45"){%>selected<% } %><% } %> value="45">Family</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "46"){%>selected<% } %><% } %> value="46">Health</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "47"){%>selected<% } %><% } %> value="47">Parenting</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "48"){%>selected<% } %><% } %> value="48">Personal Finance</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "49"){%>selected<% } %><% } %> value="49">Pets</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "50"){%>selected<% } %><% } %> value="50">Relationships</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "51"){%>selected<% } %><% } %> value="51">Travel</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "52"){%>selected<% } %><% } %> value="52">Wellness</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "53"){%>selected<% } %><% } %> value="53">Basic Income</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "54"){%>selected<% } %><% } %> value="54">City</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "55"){%>selected<% } %><% } %> value="55">Education</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "56"){%>selected<% } %><% } %> value="56">Environment</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "57"){%>selected<% } %><% } %> value="57">History</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "58"){%>selected<% } %><% } %> value="58">Philosophy</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "59"){%>selected<% } %><% } %> value="59">Transportation</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "60"){%>selected<% } %><% } %> value="60">World</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "61"){%>selected<% } %><% } %> value="61">Other</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "62"){%>selected<% } %><% } %> value="62">Future</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "63"){%>selected<% } %><% } %> value="63">Nature</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "64"){%>selected<% } %><% } %> value="64">Interior</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "65"){%>selected<% } %><% } %> value="65">House</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "66"){%>selected<% } %><% } %> value="66">Mountain</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "67"){%>selected<% } %><% } %> value="67">Clouds</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "68"){%>selected<% } %><% } %> value="68">Abstract</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "69"){%>selected<% } %><% } %> value="69">Vintage</option>
+                        <option <% if (inputs.length > 0) { %><% if (inputs[0].topic === "70"){%>selected<% } %><% } %> value="70">New</option>
+                    </select>
+                </div>
+                <button class="btn btn-lg btn-primary btn-block btn-login text-uppercase font-weight-bold mb-2" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<% include ../partials/footer %>
