@@ -858,6 +858,114 @@ router.get('/api/posts/:id', isResource, function(req, res){
     });
 });
 
+router.get('/posts/:id/edit', isResource, isAuthenticated, function(req, res, next) {
+    connection.query('SELECT userid FROM post WHERE id = ?', [req.params.id], function (error, results, fields) {
+        // error will be an Error if one occurred during the query
+        // results will contain the results of the query
+        // fields will contain information about the returned results fields (if any)
+        if (error) {
+            throw error;
+        }
+        if (req.user.id === results[0].userid) {
+            next();
+        } else {
+            res.render('403');
+        }
+    });
+    },function(req, res){
+        connection.query('SELECT id, name, description, topicid FROM post WHERE id = ?', [req.params.id],
+            function (error, results, fields) {
+                // error will be an Error if one occurred during the query
+                // results will contain the results of the query
+                // fields will contain information about the returned results fields (if any)
+                if (error) {
+                    throw error;
+                }
+                res.render('posts/edit', {
+                    title: 'Edit post',
+                    req: req,
+                    results: results,
+                    errors: req.flash('errors'),
+                    inputs: req.flash('inputs')
+                });
+            });
+});
+
+router.put('/posts/:id', isResource, isAuthenticated, function(req, res, next) {
+    connection.query('SELECT userid FROM post WHERE id = ?', [req.params.id], function (error, results, fields) {
+        // error will be an Error if one occurred during the query
+        // results will contain the results of the query
+        // fields will contain information about the returned results fields (if any)
+        if (error) {
+            throw error;
+        }
+        if (req.user.id === results[0].userid) {
+            next();
+        } else {
+            res.render('403');
+        }
+    });}, [
+    body('name', 'Empty name.').not().isEmpty(),
+    body('description', 'Empty description.').not().isEmpty(),
+    body('topic', 'Empty topic').not().isEmpty(),
+    body('name', 'Name must be between 5-200 characters.').isLength({min:5, max:200}),
+    body('description', 'Description must be between 5-300 characters.').isLength({min:5, max:300})
+], (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        // There are errors. Render form again with sanitized values/errors messages.
+        // Error messages can be returned in an array using `errors.array()`.
+        req.flash('errors', errors.array());
+        req.flash('inputs', {name: req.body.name, description: req.body.description, topicid: req.body.topic});
+        res.redirect(req._parsedOriginalUrl.pathname + '/edit');
+    }
+    else {
+        sanitizeBody('name').trim().escape();
+        sanitizeBody('description').trim().escape();
+        sanitizeBody('topic').trim().escape();
+        const name = req.body.name;
+        const description = req.body.description;
+        const topic = req.body.topic;
+        connection.query('UPDATE post SET name = ?, description = ?, topicid = ? WHERE id = ?',
+            [name, description, topic, req.params.id], function (error, results, fields) {
+            // error will be an Error if one occurred during the query
+            // results will contain the results of the query
+            // fields will contain information about the returned results fields (if any)
+            if (error) {
+                throw error;
+            }
+            req.flash('alert', 'Post edited.');
+            res.redirect(req._parsedOriginalUrl.pathname);
+        });
+    }
+});
+
+router.delete('/posts/:id', isResource, isAuthenticated, function(req, res, next) {
+    connection.query('SELECT userid FROM post WHERE id = ?', [req.params.id], function (error, results, fields) {
+        // error will be an Error if one occurred during the query
+        // results will contain the results of the query
+        // fields will contain information about the returned results fields (if any)
+        if (error) {
+            throw error;
+        }
+        if (req.user.id === results[0].userid) {
+            next();
+        } else {
+            res.render('403');
+        }
+    });}, function(req, res){
+    connection.query('DELETE FROM post WHERE id = ?', [req.params.id], function (error, results, fields) {
+        // error will be an Error if one occurred during the query
+        // results will contain the results of the query
+        // fields will contain information about the returned results fields (if any)
+        if (error) {
+            throw error;
+        }
+        req.flash('alert', 'Post deleted.');
+        res.redirect(`/users/${req.user.id}`);
+    });
+});
+
 router.post('/likes', isAuthenticated, function(req, res) {
     connection.query('INSERT INTO likes (likes, liked) VALUES (?, ?)', [req.user.id, req.body.postid],
         function (error, results, fields) {
@@ -887,16 +995,15 @@ router.delete('/likes', isAuthenticated, function(req, res) {
 });
 
 router.post('/comments', isAuthenticated, [
-        body('description', 'Empty description.').not().isEmpty(),
-        body('description', 'Description must be between 5-300 characters.').isLength({min:5, max:300})
+        body('description', 'Empty comment.').not().isEmpty(),
+        body('description', 'Comment must be between 5-300 characters.').isLength({min:5, max:300})
     ],
     (req, res) => {
         const errors = validationResult(req);
-        let errorsarray = errors.array();
-        if (errorsarray.length !== 0) {
+        if (!errors.isEmpty()) {
             // There are errors. Render form again with sanitized values/errors messages.
             // Error messages can be returned in an array using `errors.array()`.
-            res.status(400).json({ status: false, errors: errorsarray });
+            res.status(400).json({ status: false, errors: errors.array() });
         }
         else {
             sanitizeBody('description').trim().escape();
@@ -909,7 +1016,9 @@ router.post('/comments', isAuthenticated, [
                 if (error) {
                     throw error;
                 }
-                connection.query('SELECT c.id, c.description, c.datecreated, c.userid, u.username, u.imageurl FROM comment as c inner join user as u on c.userid = u.id WHERE c.id = ?', [results.insertId],
+                connection.query('SELECT c.id, c.description, c.datecreated, c.userid, ' +
+                    'u.username, u.imageurl FROM comment as c inner join user as u on c.' +
+                    'userid = u.id WHERE c.id = ?', [results.insertId],
                     function (error2, results2, fields2){
                         if (error) {
                             throw error;
@@ -918,11 +1027,34 @@ router.post('/comments', isAuthenticated, [
                     });
 
             });
-            // console.log("Upload Success", data.Location);
         }
     }
 );
 
+router.delete('/comments/:id', isResource, isAuthenticated, function(req, res, next) {
+    connection.query('SELECT userid FROM comment WHERE id = ?', [req.params.id], function (error, results, fields) {
+        // error will be an Error if one occurred during the query
+        // results will contain the results of the query
+        // fields will contain information about the returned results fields (if any)
+        if (error) {
+            throw error;
+        }
+        if (req.user.id === results[0].userid) {
+            next();
+        } else {
+            res.render('403');
+        }
+    });}, function(req, res){
+    connection.query('DELETE FROM comment WHERE id = ?', [req.params.id], function (error, results, fields) {
+        // error will be an Error if one occurred during the query
+        // results will contain the results of the query
+        // fields will contain information about the returned results fields (if any)
+        if (error) {
+            throw error;
+        }
+        res.status(200).json({ status: "done" });
+    });
+});
 
 router.get('/login', isNotAuthenticated, function(req, res, next){
     res.render('login', {

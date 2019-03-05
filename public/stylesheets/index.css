@@ -276,6 +276,10 @@ select {
     padding: 15px 30px!important;
 }
 
+.pd-10-20 {
+    padding: 10px 20px!important;
+}
+
 @media (min-width: 981px) {
     .vert {
         display: flex;

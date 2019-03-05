@@ -32,10 +32,10 @@ commentform.addEventListener('submit', (e)=> {
     }).then(response => response.json()).then(result => {
             if (!result.status) {
                 for (let i = 0; i < result.errors.length; i++) {
-                    if (result.errors[i].msg === "Empty description.") {
+                    if (result.errors[i].msg === "Empty comment.") {
                         emptyerror.classList.remove('hidden');
                     }
-                    if (result.errors[i].msg === "Description must be between 5-300 characters.") {
+                    if (result.errors[i].msg === "Comment must be between 5-300 characters.") {
                         lengtherror.classList.remove('hidden');
                     }
                 }
@@ -48,46 +48,68 @@ commentform.addEventListener('submit', (e)=> {
                     emptyerror.classList.add('hidden');
                     lengtherror.classList.add('hidden');
                     commentformtextarea.value = '';
-                const card = document.createElement("div");
-                card.classList.add("card");
-                card.classList.add("item");
-                card.classList.add("mb-30");
-                const cardBody = document.createElement("div");
-                cardBody.classList.add("card-body");
-                card.appendChild(cardBody);
-                const cardMore = document.createElement("div");
-                cardMore.classList.add("flex");
-                const cardMoreLeft = document.createElement("div");
-                const cardMoreRight = document.createElement("div");
-                cardMore.appendChild(cardMoreLeft);
-                cardMore.appendChild(cardMoreRight);
-                cardMoreLeft.classList.add("mr-15");
-                const link1 = document.createElement("a");
-                link1.setAttribute("href", `/users/${result.comment[0].userid}`);
-                const avatar = document.createElement("img");
-                avatar.setAttribute("src", result.comment[0].imageurl);
-                avatar.classList.add("width-60");
-                avatar.classList.add("height-60");
-                avatar.classList.add("border-radius");
-                link1.appendChild(avatar);
-                cardMoreLeft.appendChild(link1);
-                cardMoreRightTop = document.createElement("div");
-                cardMoreRightMedium = document.createElement("div");
-                cardMoreRightBottom = document.createElement("div");
-                cardMoreRight.appendChild(cardMoreRightTop);
-                cardMoreRight.appendChild(cardMoreRightMedium);
-                cardMoreRight.appendChild(cardMoreRightBottom);
-                const link2 = document.createElement("a");
-                link2.setAttribute("href", `/users/${result.comment[0].userid}`);
-                link2.classList.add("bold");
-                link2.innerText = result.comment[0].username;
-                cardMoreRightTop.appendChild(link2);
-                const link3 = document.createElement("a");
-                link3.setAttribute("href", `/comments/${result.comment[0].id}`);
-                link3.innerText = result.comment[0].description;
-                cardMoreRightMedium.appendChild(link3);
-                cardMoreRightBottom.innerText = moment(result.comment[0].datecreated).format('LLL');
-                cardBody.appendChild(cardMore);
+                    const card = document.createElement("div");
+                    card.classList.add("card");
+                    card.classList.add("item");
+                    card.classList.add("mb-30");
+                    const cardBody = document.createElement("div");
+                    cardBody.classList.add("card-body");
+                    card.appendChild(cardBody);
+                    const cardMore = document.createElement("div");
+                    cardMore.classList.add("flex");
+                    const cardMoreLeft = document.createElement("div");
+                    const cardMoreRight = document.createElement("div");
+                    cardMore.appendChild(cardMoreLeft);
+                    cardMore.appendChild(cardMoreRight);
+                    cardMoreLeft.classList.add("mr-15");
+                    const link1 = document.createElement("a");
+                    link1.setAttribute("href", `/users/${result.comment[0].userid}`);
+                    const avatar = document.createElement("img");
+                    avatar.setAttribute("src", result.comment[0].imageurl);
+                    avatar.classList.add("width-60");
+                    avatar.classList.add("height-60");
+                    avatar.classList.add("border-radius");
+                    link1.appendChild(avatar);
+                    cardMoreLeft.appendChild(link1);
+                    cardMoreRightTop = document.createElement("div");
+                    cardMoreRightMedium = document.createElement("div");
+                    cardMoreRightBottom = document.createElement("div");
+                    cardMoreRight.appendChild(cardMoreRightTop);
+                    cardMoreRight.appendChild(cardMoreRightMedium);
+                    cardMoreRight.appendChild(cardMoreRightBottom);
+                    cardMoreRightTop.classList.add("mb-5");
+                    cardMoreRightMedium.classList.add("mb-5");
+                    cardMoreRightBottom.classList.add("mb-5");
+                    const link2 = document.createElement("a");
+                    link2.setAttribute("href", `/users/${result.comment[0].userid}`);
+                    link2.classList.add("bold");
+                    link2.innerText = result.comment[0].username;
+                    cardMoreRightTop.appendChild(link2);
+                    cardMoreRightMedium.innerText = result.comment[0].description;
+                    cardMoreRightBottom.innerText = moment(result.comment[0].datecreated).format('LLL');
+                    const deletebutton = document.createElement("button");
+                    deletebutton.classList.add("btn");
+                    deletebutton.classList.add("btn-primary");
+                    deletebutton.classList.add("pd-10-20");
+                    deletebutton.classList.add("deletecomment");
+                    deletebutton.setAttribute("data-url", `/comments/${result.comment[0].id}`);
+                    deletebutton.innerText = "Delete";
+                    deletebutton.addEventListener('click', function(e){
+                        const url = e.target.getAttribute("data-url");
+                        fetch(url, {
+                            method: 'DELETE',
+                            headers: {"Content-Type": "application/json"},
+                        }).then(response => response.json())
+                            .then(result => {
+                                e.target.parentElement.parentElement.parentElement.parentElement.remove();
+                                let commentscount = document.getElementsByClassName('commentscount');
+                                for (let i = 0; i < commentscount.length; i++){
+                                    commentscount[i].innerText = (Number(commentscount[i].innerText) - 1) + '';
+                                }
+                            });
+                    });
+                    cardMoreRight.appendChild(deletebutton);
+                    cardBody.appendChild(cardMore);
                     container.insertBefore(card, container.firstChild);
                 }
             });

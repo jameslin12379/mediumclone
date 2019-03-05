@@ -36,7 +36,7 @@
                     </div>
                     <div>
                         <div><a href="/users/<%= results[1][i].userid %>" class="bold fs-16"><%= results[1][i].username %></a></div>
-                        <div><a href="/comments/<%= results[1][i].id %>" class="fs-16"><%= results[1][i].description %></a></div>
+                        <div><%= results[1][i].description %></div>
                         <div class="fs-16"><%= moment(results[1][i].datecreated).format('LLL') %></div>
                     </div>
                 </div>

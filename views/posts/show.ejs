@@ -9,7 +9,7 @@
 </div>
 <% } %>
 
-<div class="container ptb-125">
+<div class="container ptb-125" id="user" data-user="<%= req.user.id %>">
     <div class="card item bd-none mb-30">
         <div class="card-body">
             <h3 class="card-title mb-15"><%= results[0][0].name %></h3>
@@ -66,10 +66,10 @@
             <% if (req.isAuthenticated()) { %>
             <form name="sentMessage" action="/comments" method="post" id="commentform">
                 <div id="emptyerror" class="alert alert-danger mb-15 hidden commentformerrors" role="alert">
-                    Empty description.
+                    Empty comment.
                 </div>
                 <div id="lengtherror" class="alert alert-danger mb-15 hidden commentformerrors" role="alert">
-                    Description must be between 5-300 characters.
+                    Comment must be between 5-300 characters.
                 </div>
                 <div class="control-group mb-15">
                     <div class="form-group floating-label-form-group controls">
@@ -94,9 +94,12 @@
                         <a href="/users/<%= results[1][i].userid %>"><img src="<%= results[1][i].imageurl %>" alt="" class="width-60 height-60 border-radius" /></a>
                     </div>
                     <div>
-                        <div><a href="/users/<%= results[1][i].userid %>" class="bold fs-16"><%= results[1][i].username %></a></div>
-                        <div><a href="/comments/<%= results[1][i].id %>" class="fs-16"><%= results[1][i].description %></a></div>
-                        <div class="fs-16"><%= moment(results[1][i].datecreated).format('LLL') %></div>
+                        <div class="mb-5"><a href="/users/<%= results[1][i].userid %>" class="bold fs-16"><%= results[1][i].username %></a></div>
+                        <div class="mb-5"><%= results[1][i].description %></div>
+                        <div class="mb-5 fs-16"><%= moment(results[1][i].datecreated).format('LLL') %></div>
+                        <% if (req.isAuthenticated() && req.user.id === results[1][i].userid) { %>
+                        <button type="submit" class="btn btn-primary pd-10-20 deletecomment" data-url="/comments/<%= results[1][i].id %>">Delete</button>
+                        <% } %>
                     </div>
                 </div>
             </div>
@@ -111,5 +114,6 @@
 <% if (req.isAuthenticated()) { %>
 <script src="/javascripts/postlikeunlike.js"></script>
 <script src="/javascripts/postcreatecomment.js"></script>
+<script src="/javascripts/postdeletecomment.js"></script>
 <% } %>
 <% include ../partials/footer %>
