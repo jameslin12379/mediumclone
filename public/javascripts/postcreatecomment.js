@@ -19,7 +19,6 @@ let emptyerror = document.getElementById('emptyerror');
 let lengtherror = document.getElementById('lengtherror');
 let commentscount = document.getElementsByClassName('commentscount');
 
-
 commentform.addEventListener('submit', (e)=> {
     e.preventDefault();
     emptyerror.classList.add('hidden');

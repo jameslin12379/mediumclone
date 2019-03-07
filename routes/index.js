@@ -113,10 +113,24 @@ function isResource(req, res, next) {
 // if user is logged in return feed page else return home page
 router.get('/', function(req, res, next) {
   if (req.isAuthenticated()) {
-      res.render('feed', {
-          title: 'Feed',
-          req: req
-      })
+      connection.query('SELECT t.id, t.name, t.imageurl FROM topicfollowing as tf inner join topic as t on ' +
+          'tf.followed = t.id where tf.following = ? ORDER BY tf.datecreated DESC;SELECT u.id, u.username, ' +
+          'u.imageurl from userfollowing as uf inner join user as u on uf.followed = u.id where uf.following = ?' +
+          ' ORDER BY uf.datecreated DESC;', [req.user.id, req.user.id],
+          function (error, results, fields) {
+              if (error) {
+                  throw error;
+              }
+              console.log(results);
+              res.render('feed', {
+                  title: 'Feed',
+                  req: req,
+                  results: results,
+                  alert: req.flash('alert')
+              });
+          }
+      );
+
   } else {
       res.render('index', {
           title: 'Medium clone',
@@ -1053,6 +1067,13 @@ router.delete('/comments/:id', isResource, isAuthenticated, function(req, res, n
             throw error;
         }
         res.status(200).json({ status: "done" });
+    });
+});
+
+router.get('/settings', isAuthenticated, function(req, res, next){
+    res.render('settings', {
+        title: 'Settings',
+        req: req,
     });
 });
 

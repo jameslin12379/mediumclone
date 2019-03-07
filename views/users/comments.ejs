@@ -35,9 +35,9 @@
                         <a href="/users/<%= results[1][i].userid %>"><img src="<%= results[1][i].imageurl %>" alt="" class="width-60 height-60 border-radius" /></a>
                     </div>
                     <div>
-                        <div><a href="/users/<%= results[1][i].userid %>" class="bold fs-16"><%= results[1][i].username %></a></div>
-                        <div><%= results[1][i].description %></div>
-                        <div class="fs-16"><%= moment(results[1][i].datecreated).format('LLL') %></div>
+                        <div class="mb-5"><a href="/users/<%= results[1][i].userid %>" class="bold fs-16"><%= results[1][i].username %></a></div>
+                        <div class="mb-5"><%= results[1][i].description %></div>
+                        <div class="mb-5 fs-16"><%= moment(results[1][i].datecreated).format('LLL') %></div>
                     </div>
                 </div>
             </div>

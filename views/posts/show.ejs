@@ -9,7 +9,7 @@
 </div>
 <% } %>
 
-<div class="container ptb-125" id="user" data-user="<%= req.user.id %>">
+<div class="container ptb-125" id="user" <% if (req.isAuthenticated()) { %>data-user="<%= req.user.id %>"<% } %>>
     <div class="card item bd-none mb-30">
         <div class="card-body">
             <h3 class="card-title mb-15"><%= results[0][0].name %></h3>
